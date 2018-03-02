@@ -1,7 +1,7 @@
-import http.client
+from http.client import HTTPSConnection
+from json import loads
+import urllib.parse as urllib
 import ssl
-import urllib
-import json
 import ibanity.Error
 
 
@@ -30,17 +30,18 @@ class Client:
 
         context = ssl.create_default_context(purpose=ssl.Purpose.CLIENT_AUTH)
         context.load_cert_chain(self.certificate_path, keyfile=self.key_path, password=self.key_passphrase)
-        connection = http.client.HTTPSConnection(self.api_host, context=context)
+        connection = HTTPSConnection(self.api_host, context=context)
         connection.request(method, uri, body=body, headers=headers)
         response = connection.getresponse()
 
         if response.code > 400:
-            body = json.loads(response.read().decode('utf-8'))
+            body = loads(response.read().decode('utf-8'))
             raise ibanity.Error(body["errors"])
         else:
-            return json.loads(response.read().decode('utf-8'))
+            return loads(response.read().decode('utf-8'))
 
-    def __build_headers(self, customer_access_token):
+    @staticmethod
+    def __build_headers(customer_access_token):
         authorization = ""
         if customer_access_token:
             authorization = "Bearer " + str(customer_access_token)

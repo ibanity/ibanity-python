@@ -5,6 +5,7 @@ class Error(Exception):
     def str(self):
         str(map(lambda error: self.__format_error(error), self.errors))
 
+    @staticmethod
     def __format_error(error):
         if error["attribute"]:
             return "* " + error["code"] + ": " + error["attribute"] + " " + error["message"]
