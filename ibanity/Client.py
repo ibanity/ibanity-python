@@ -1,9 +1,7 @@
 import ssl
 import urllib.parse as urllib
 from http.client import HTTPSConnection
-from json import loads
-
-import ibanity.api.FinancialInstitution
+from json import loads, dumps
 
 import ibanity.Error
 
@@ -44,7 +42,7 @@ class Client:
         context = ssl.create_default_context(purpose=ssl.Purpose.CLIENT_AUTH)
         context.load_cert_chain(self.certificate_path, keyfile=self.key_path, password=self.key_passphrase)
         connection = HTTPSConnection(self.api_host, context=context)
-        connection.request(method, uri, body=body, headers=headers)
+        connection.request(method, uri, body=dumps(body), headers=headers)
         response = connection.getresponse()
 
         if response.code > 400:
