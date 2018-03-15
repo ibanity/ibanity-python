@@ -1,16 +1,29 @@
+import ssl
+import urllib.parse as urllib
 from http.client import HTTPSConnection
 from json import loads
-import urllib.parse as urllib
-import ssl
+
+import ibanity.api.FinancialInstitution
+
 import ibanity.Error
 
 
 class Client:
-    def __init__(self, certificate_path, key_path, key_passphrase, api_host):
+    def __init__(self, certificate_path, key_path, key_passphrase, api_host, scheme="https", port="443"):
+        self.scheme = scheme
+        self.port = port
         self.certificate_path = certificate_path
         self.key_path = key_path
         self.key_passphrase = key_passphrase
         self.api_host = api_host
+        self.base_uri = self.scheme + "://" + self.api_host
+        self.schema = None
+
+    @property
+    def api_schema(self):
+        if self.schema is None:
+            self.schema = self.get(self.base_uri, {}, None)["links"]
+        return self.schema
 
     def get(self, uri, params, customer_access_token):
         return self.execute("GET", uri, {}, params=params, headers=self.__build_headers(customer_access_token))
