@@ -3,3 +3,4 @@ from ibanity.Error import Error
 import ibanity.api.FinancialInstitution
 import ibanity.api.CustomerAccessToken
 import ibanity.api.AccountInformationRequest
+import ibanity.api.Account

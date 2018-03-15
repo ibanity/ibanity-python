@@ -1,9 +1,9 @@
 from collections import namedtuple
 
 
-def get_list(client):
+def get_list(client, params):
     uri = client.api_schema["financialInstitutions"].replace("{financialInstitutionId}", "")
-    response = client.get(uri, {}, None)
+    response = client.get(uri, params, None)
     return list(
         map(
             lambda financial_institution:
