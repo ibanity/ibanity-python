@@ -6,7 +6,6 @@ def get_list_for_financial_institution(client, financial_institution_id, sandbox
         .replace("{financialInstitutionId}", financial_institution_id) \
         .replace("{sandboxUserId}", sandbox_user_id) \
         .replace("{sandboxAccountId}", "")
-    print(uri)
     response = client.get(uri, params, None)
     return list(
         map(
