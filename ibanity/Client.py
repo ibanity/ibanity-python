@@ -32,8 +32,8 @@ class Client:
     def delete(self, uri, params, customer_access_token):
         return self.execute("DELETE", uri, {}, params=params, headers=self.__build_headers(customer_access_token))
 
-    def put(self, uri, body, params, customer_access_token):
-        return self.execute("PUT", uri, body, params=params, headers=self.__build_headers(customer_access_token))
+    def patch(self, uri, body, params, customer_access_token):
+        return self.execute("PATCH", uri, body, params=params, headers=self.__build_headers(customer_access_token))
 
     def execute(self, method, uri, body, params, headers):
         if params:

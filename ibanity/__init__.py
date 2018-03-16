@@ -8,3 +8,4 @@ import ibanity.api.Transaction
 import ibanity.api.PaymentInitiationRequest
 import ibanity.api.SandboxAccount
 import ibanity.api.SandboxUser
+import ibanity.api.SandboxFinancialInstitution
