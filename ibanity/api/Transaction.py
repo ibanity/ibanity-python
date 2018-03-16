@@ -14,6 +14,7 @@ def get_list(client, financial_institution_id, account_id, customer_access_token
         )
     )
 
+
 def find(client, financial_institution_id, account_id, id, customer_access_token):
     uri = client.api_schema["customer"]["financialInstitution"]["transactions"] \
         .replace("{financialInstitutionId}", financial_institution_id) \
@@ -21,6 +22,7 @@ def find(client, financial_institution_id, account_id, id, customer_access_token
         .replace("{transactionId}", id)
     response = client.get(uri, {}, customer_access_token)
     return __create_transaction_named_tuple__(response["data"])
+
 
 def __create_transaction_named_tuple__(transaction):
     return namedtuple("Transaction", transaction.keys())(**transaction)
