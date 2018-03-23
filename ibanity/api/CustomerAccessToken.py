@@ -1,8 +1,9 @@
 from collections import namedtuple
+from ibanity import Ibanity
 
 
-def create(client, application_customer_reference):
-    uri = client.api_schema["customerAccessTokens"]
+def create(application_customer_reference):
+    uri = Ibanity.client.api_schema["customerAccessTokens"]
     body = {
         "data": {
             "type": "customerAccessToken",
@@ -11,7 +12,7 @@ def create(client, application_customer_reference):
             }
         }
     }
-    response = client.post(uri, body, {}, None)
+    response = Ibanity.client.post(uri, body, {}, None)
     return __create_customer_access_token_named_tuple__(response["data"])
 
 

@@ -1,12 +1,13 @@
 from collections import namedtuple
+from ibanity import Ibanity
 
 
-def get_list_for_financial_institution(client, financial_institution_id, sandbox_user_id, params):
-    uri = client.api_schema["sandbox"]["accounts"] \
+def get_list_for_financial_institution(financial_institution_id, sandbox_user_id, params={}):
+    uri = Ibanity.client.api_schema["sandbox"]["accounts"] \
         .replace("{financialInstitutionId}", financial_institution_id) \
         .replace("{sandboxUserId}", sandbox_user_id) \
         .replace("{sandboxAccountId}", "")
-    response = client.get(uri, params, None)
+    response = Ibanity.client.get(uri, params, None)
     return list(
         map(
             lambda account:
@@ -15,8 +16,8 @@ def get_list_for_financial_institution(client, financial_institution_id, sandbox
     )
 
 
-def create(client, financial_institution_id, sandbox_user_id, attributes):
-    uri = client.api_schema["sandbox"]["accounts"] \
+def create(financial_institution_id, sandbox_user_id, attributes):
+    uri = Ibanity.client.api_schema["sandbox"]["accounts"] \
         .replace("{financialInstitutionId}", financial_institution_id) \
         .replace("{sandboxUserId}", sandbox_user_id) \
         .replace("{sandboxAccountId}", "")
@@ -26,25 +27,25 @@ def create(client, financial_institution_id, sandbox_user_id, attributes):
             "attributes": attributes
         }
     }
-    response = client.post(uri, body, {}, None)
+    response = Ibanity.client.post(uri, body, {}, None)
     return __create_account_named_tuple__(response["data"])
 
 
-def delete(client, financial_institution_id, sandbox_user_id, id):
-    uri = client.api_schema["sandbox"]["accounts"] \
+def delete(financial_institution_id, sandbox_user_id, id):
+    uri = Ibanity.client.api_schema["sandbox"]["accounts"] \
         .replace("{financialInstitutionId}", financial_institution_id) \
         .replace("{sandboxUserId}", sandbox_user_id) \
         .replace("{sandboxAccountId}", id)
-    response = client.delete(uri, {}, None)
+    response = Ibanity.client.delete(uri, {}, None)
     return __create_account_named_tuple__(response["data"])
 
 
-def find(client, financial_institution_id, sandbox_user_id, id):
-    uri = client.api_schema["sandbox"]["accounts"] \
+def find(financial_institution_id, sandbox_user_id, id):
+    uri = Ibanity.client.api_schema["sandbox"]["accounts"] \
         .replace("{financialInstitutionId}", financial_institution_id) \
         .replace("{sandboxUserId}", sandbox_user_id) \
         .replace("{sandboxAccountId}", id)
-    response = client.get(uri, {}, None)
+    response = Ibanity.client.get(uri, {}, None)
     return __create_account_named_tuple__(response["data"])
 
 

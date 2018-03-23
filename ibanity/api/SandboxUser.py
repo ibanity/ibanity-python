@@ -1,9 +1,10 @@
 from collections import namedtuple
+from ibanity import Ibanity
 
 
-def get_list(client, params):
-    uri = client.api_schema["sandbox"]["users"].replace("{sandboxUserId}", "")
-    response = client.get(uri, params, None)
+def get_list(params={}):
+    uri = Ibanity.client.api_schema["sandbox"]["users"].replace("{sandboxUserId}", "")
+    response = Ibanity.client.get(uri, params, None)
     return list(
         map(
             lambda user:
@@ -12,29 +13,29 @@ def get_list(client, params):
     )
 
 
-def create(client, attributes):
-    uri = client.api_schema["sandbox"]["users"].replace("{sandboxUserId}", "")
+def create(attributes):
+    uri = Ibanity.client.api_schema["sandbox"]["users"].replace("{sandboxUserId}", "")
     body = {
         "data": {
             "type": "sandboxUser",
             "attributes": attributes
         }
     }
-    response = client.post(uri, body, {}, None)
+    response = Ibanity.client.post(uri, body, {}, None)
     return __create_user_named_tuple__(response["data"])
 
 
-def delete(client, id):
-    uri = client.api_schema["sandbox"]["users"] \
+def delete(id):
+    uri = Ibanity.client.api_schema["sandbox"]["users"] \
         .replace("{sandboxUserId}", id)
-    response = client.delete(uri, {}, None)
+    response = Ibanity.client.delete(uri, {}, None)
     return __create_user_named_tuple__(response["data"])
 
 
-def find(client, id):
-    uri = client.api_schema["sandbox"]["users"] \
+def find(id):
+    uri = Ibanity.client.api_schema["sandbox"]["users"] \
         .replace("{sandboxUserId}", id)
-    response = client.get(uri, {}, None)
+    response = Ibanity.client.get(uri, {}, None)
     return __create_user_named_tuple__(response["data"])
 
 

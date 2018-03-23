@@ -1,28 +1,29 @@
 from collections import namedtuple
+from ibanity import Ibanity
 
 
 
-def create(client, attributes):
-    uri = client.api_schema["sandbox"]["financialInstitutions"].replace("{financialInstitutionId}", "")
+def create(attributes):
+    uri = Ibanity.client.api_schema["sandbox"]["financialInstitutions"].replace("{financialInstitutionId}", "")
     body = {
         "data": {
             "type": "financialInstitution",
             "attributes": attributes
         }
     }
-    response = client.post(uri, body, {}, None)
+    response = Ibanity.client.post(uri, body, {}, None)
     return __create_financial_institution_named_tuple__(response["data"])
 
 
-def delete(client, id):
-    uri = client.api_schema["sandbox"]["financialInstitutions"] \
+def delete(id):
+    uri = Ibanity.client.api_schema["sandbox"]["financialInstitutions"] \
         .replace("{financialInstitutionId}", id)
-    response = client.delete(uri, {}, None)
+    response = Ibanity.client.delete(uri, {}, None)
     return __create_financial_institution_named_tuple__(response["data"])
 
 
-def update(client, id, attributes):
-    uri = client.api_schema["sandbox"]["financialInstitutions"] \
+def update(id, attributes):
+    uri = Ibanity.client.api_schema["sandbox"]["financialInstitutions"] \
         .replace("{financialInstitutionId}", id)
     body = {
         "data": {
@@ -30,7 +31,7 @@ def update(client, id, attributes):
             "attributes": attributes
         }
     }
-    response = client.patch(uri, body, {}, None)
+    response = Ibanity.client.patch(uri, body, {}, None)
     return __create_financial_institution_named_tuple__(response["data"])
 
 

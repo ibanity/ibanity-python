@@ -6,7 +6,7 @@ from json import loads, dumps
 import ibanity.Error
 
 
-class Client:
+class Ibanity:
     def __init__(self, certificate_path, key_path, key_passphrase, api_host, scheme="https", port="443"):
         self.scheme = scheme
         self.port = port
@@ -16,6 +16,7 @@ class Client:
         self.api_host = api_host
         self.base_uri = self.scheme + "://" + self.api_host
         self.schema = None
+        self.__class__.client = self
 
     @property
     def api_schema(self):

@@ -1,4 +1,4 @@
-from ibanity.Client import Client
+from ibanity.Ibanity import Ibanity
 from ibanity.Error import Error
 import ibanity.api.FinancialInstitution
 import ibanity.api.CustomerAccessToken
