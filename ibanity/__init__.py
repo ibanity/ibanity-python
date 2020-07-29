@@ -5,8 +5,11 @@ import ibanity.api.CustomerAccessToken
 import ibanity.api.AccountInformationRequest
 import ibanity.api.Account
 import ibanity.api.Transaction
+import ibanity.api.Holding
+import ibanity.api.FinancialInstitutionHolding
 import ibanity.api.PaymentInitiationRequest
-import ibanity.api.SandboxAccount
-import ibanity.api.SandboxUser
+import ibanity.api.FinancialInstitutionAccount
+import ibanity.api.FinancialInstitutionUser
 import ibanity.api.SandboxFinancialInstitution
-import ibanity.api.SandboxTransaction
+import ibanity.api.FinancialInstitutionTransaction
+

@@ -3,7 +3,7 @@ from ibanity import Ibanity
 
 
 def get_list(params={}):
-    uri = Ibanity.client.api_schema["sandbox"]["users"].replace("{sandboxUserId}", "")
+    uri = Ibanity.client.api_schema["sandbox"]["financialInstitutionUsers"].replace("{financialInstitutionUserId}", "")
     response = Ibanity.client.get(uri, params, None)
     return list(
         map(
@@ -12,12 +12,11 @@ def get_list(params={}):
         )
     )
 
-
 def create(attributes):
-    uri = Ibanity.client.api_schema["sandbox"]["users"].replace("{sandboxUserId}", "")
+    uri = Ibanity.client.api_schema["sandbox"]["financialInstitutionUsers"].replace("{financialInstitutionUserId}", "")
     body = {
         "data": {
-            "type": "sandboxUser",
+            "type": "financialInstitutionUser",
             "attributes": attributes
         }
     }
@@ -26,18 +25,18 @@ def create(attributes):
 
 
 def delete(id):
-    uri = Ibanity.client.api_schema["sandbox"]["users"] \
-        .replace("{sandboxUserId}", id)
+    uri = Ibanity.client.api_schema["sandbox"]["financialInstitutionUsers"] \
+        .replace("{financialInstitutionUserId}", id)
     response = Ibanity.client.delete(uri, {}, None)
     return __create_user_named_tuple__(response["data"])
 
 
 def find(id):
-    uri = Ibanity.client.api_schema["sandbox"]["users"] \
-        .replace("{sandboxUserId}", id)
+    uri = Ibanity.client.api_schema["sandbox"]["financialInstitutionUsers"] \
+        .replace("{financialInstitutionUserId}", id)
     response = Ibanity.client.get(uri, {}, None)
     return __create_user_named_tuple__(response["data"])
 
 
 def __create_user_named_tuple__(user):
-    return namedtuple("SandboxUser", user.keys())(**user)
+    return namedtuple("FinancialInstitutionUser", user.keys())(**user)

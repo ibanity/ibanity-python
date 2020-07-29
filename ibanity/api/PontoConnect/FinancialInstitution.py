@@ -2,9 +2,9 @@ from collections import namedtuple
 from ibanity import Ibanity
 
 
-def get_list(params={}):
-    uri = Ibanity.client.api_schema["financialInstitutions"].replace("{financialInstitutionId}", "")
-    response = Ibanity.client.get(uri, params, None)
+def get_list(access_token = None):
+    uri = Ibanity.client.api_schema_ponto["financialInstitutions"]
+    response = Ibanity.client.get(uri, {}, access_token)
     return list(
         map(
             lambda financial_institution:
@@ -13,10 +13,11 @@ def get_list(params={}):
     )
 
 
-def find(id):
-    uri = Ibanity.client.api_schema["financialInstitutions"].replace("{financialInstitutionId}", id)
-    response = Ibanity.client.get(uri, {}, None)
-    return __create_financial_institution_named_tuple__(response["data"])
+def find(id, access_token):
+    uri = Ibanity.client.api_schema_ponto["financialInstitutions"] \
+        .replace("{financialInstitutionId}", id)
+    response = Ibanity.client.get(uri, {}, access_token)
+    return __financial_institution_named_tuple__(response["data"])
 
 
 def __create_financial_institution_named_tuple__(financial_institution):

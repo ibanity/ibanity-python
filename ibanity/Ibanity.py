@@ -16,6 +16,7 @@ class Ibanity:
         self.api_host = api_host
         self.base_uri = self.scheme + "://" + self.api_host
         self.schema = None
+        self.ponto_schema = None
         self.__class__.client = self
 
     @property
@@ -23,6 +24,12 @@ class Ibanity:
         if self.schema is None:
             self.schema = self.get(self.base_uri, {}, None)["links"]
         return self.schema
+
+    @property
+    def api_schema_ponto(self):
+        if self.ponto_schema is None:
+            self.ponto_schema = self.get(self.base_uri + "/ponto-connect", {}, None)["links"]
+        return self.ponto_schema
 
     def get(self, uri, params, customer_access_token):
         return self.execute("GET", uri, {}, params=params, headers=self.__build_headers(customer_access_token))
