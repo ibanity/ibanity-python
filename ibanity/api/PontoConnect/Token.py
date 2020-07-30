@@ -1,5 +1,6 @@
 from collections import namedtuple
 from ibanity import Ibanity
+import requests
 
 
 def create(authorization_code, code_verifier, redirect_uri, client_id, authorization):
@@ -12,8 +13,9 @@ def create(authorization_code, code_verifier, redirect_uri, client_id, authoriza
         "redirect_uri": redirect_uri,
         "code_verifier": code_verifier
         }
-    response = Ibanity.client.post(uri, body, {}, None)
-    return __create_token_named_tuple__(response["data"])
+
+    response = Ibanity.client.post(uri, body, {}, authorization)
+    return __create_token_named_tuple__(response)
 
 
 def create_from_refresh_token(refresh_token, authorization, client_id):
