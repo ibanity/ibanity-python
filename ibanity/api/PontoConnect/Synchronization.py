@@ -11,7 +11,6 @@ def create(attributes, access_token):
             "attributes": attributes
             }
         }
-    }
     response = Ibanity.client.post(uri, body, {}, access_token)
     return __create_synchronization_named_tuple__(response["data"])
 
