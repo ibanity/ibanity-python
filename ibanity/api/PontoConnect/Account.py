@@ -3,7 +3,8 @@ from ibanity import Ibanity
 
 
 def get_list(access_token):
-    uri = Ibanity.client.api_schema_ponto["accounts"]
+    uri = Ibanity.client.api_schema_ponto["accounts"] \
+        .replace("{accountId}", "")
     response = Ibanity.client.get(uri, {}, access_token)
     return list(
         map(

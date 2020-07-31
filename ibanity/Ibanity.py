@@ -66,7 +66,6 @@ class Ibanity:
             authorization = "Bearer " + str(customer_access_token)
             if customer_access_token[-2:] == "==":
                 authorization = "Basic " + str(customer_access_token)
-                print ("jebfjbdfjbdfjbdkfbnkdnfkdmfldmlfm")
 
         return {
             "Content-Type": "application/json",

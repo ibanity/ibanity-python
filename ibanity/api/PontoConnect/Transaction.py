@@ -24,4 +24,4 @@ def find(account_id, id, access_token):
 
 
 def __create_transaction_named_tuple__(transaction):
-    return namedtuple("transaction", transaction.keys())(**transaction)
+    return namedtuple("Transaction", transaction.keys())(**transaction)

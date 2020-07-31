@@ -18,7 +18,7 @@ def create(authorization_code, code_verifier, redirect_uri, client_id, authoriza
     return __create_token_named_tuple__(response)
 
 
-def create_from_refresh_token(refresh_token, authorization, client_id):
+def create_from_refresh_token(refresh_token, client_id, authorization):
     uri = Ibanity.client.api_schema_ponto["oauth2"]["token"] \
 
     body = {
@@ -26,8 +26,8 @@ def create_from_refresh_token(refresh_token, authorization, client_id):
         "refresh_token": refresh_token,
         "client_id": client_id,
         }
-    response = Ibanity.client.post(uri, body, {}, None)
-    return __create_token_named_tuple__(response["data"])
+    response = Ibanity.client.post(uri, body, {}, authorization)
+    return __create_token_named_tuple__(response)
 
 def __create_token_named_tuple__(token):
     return namedtuple("Token", token.keys())(**token)
