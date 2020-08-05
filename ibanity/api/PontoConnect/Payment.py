@@ -1,5 +1,6 @@
 from collections import namedtuple
 from ibanity import Ibanity
+from ibanity.Flatten import flatten_json
 
 
 def create(account_id, attributes, access_token):
@@ -13,7 +14,7 @@ def create(account_id, attributes, access_token):
             }
         }
     response = Ibanity.client.post(uri, body, {}, access_token)
-    return __create_payment_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def find(account_id, id, access_token):
@@ -21,7 +22,7 @@ def find(account_id, id, access_token):
         .replace("{accountId}", account_id) \
         .replace("{paymentId}", id)
     response = Ibanity.client.get(uri, {}, access_token)
-    return __create_payment_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def delete(account_id, id, access_token):
@@ -29,7 +30,5 @@ def delete(account_id, id, access_token):
         .replace("{accountId}", account_id) \
         .replace("{paymentId}", id)
     response = Ibanity.client.delete(uri, {}, access_token)
-    return __create_payment_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
-def __create_payment_named_tuple__(payment):
-    return namedtuple("Payment", payment.keys())(**payment)

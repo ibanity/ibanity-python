@@ -1,5 +1,6 @@
 from collections import namedtuple
 from ibanity import Ibanity
+from ibanity.Flatten import flatten_json
 
 
 def get_list(params={}):
@@ -8,7 +9,7 @@ def get_list(params={}):
     return list(
         map(
             lambda user:
-            __create_user_named_tuple__(user), response["data"]
+            flatten_json(user), response["data"]
         )
     )
 
@@ -21,22 +22,19 @@ def create(attributes):
         }
     }
     response = Ibanity.client.post(uri, body, {}, None)
-    return __create_user_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def delete(id):
     uri = Ibanity.client.api_schema["sandbox"]["financialInstitutionUsers"] \
         .replace("{financialInstitutionUserId}", id)
     response = Ibanity.client.delete(uri, {}, None)
-    return __create_user_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def find(id):
     uri = Ibanity.client.api_schema["sandbox"]["financialInstitutionUsers"] \
         .replace("{financialInstitutionUserId}", id)
     response = Ibanity.client.get(uri, {}, None)
-    return __create_user_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
-
-def __create_user_named_tuple__(user):
-    return namedtuple("FinancialInstitutionUser", user.keys())(**user)

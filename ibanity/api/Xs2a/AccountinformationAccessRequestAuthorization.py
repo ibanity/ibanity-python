@@ -1,5 +1,6 @@
 from collections import namedtuple
 from ibanity import Ibanity
+from ibanity.Flatten import flatten_json
 
 
 def create(financial_institution_id, account_information_access_request_id, customer_access_token, attributes):
@@ -13,8 +14,4 @@ def create(financial_institution_id, account_information_access_request_id, cust
         }
     }
     response = Ibanity.client.post(uri, body, {}, customer_access_token)
-    return __create_account_information_access_request_authorization_named_tuple__(response["data"])
-
-def __create_account_information_access_request_authorization_named_tuple__(account_information_access_request_authorization):
-    return namedtuple("AccountInformationAccessRequest",
-                      account_information_access_request_authorization.keys())(**account_information_access_request_authorization)
+    return flatten_json(response["data"])

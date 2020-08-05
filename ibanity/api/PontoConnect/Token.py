@@ -1,6 +1,7 @@
 from collections import namedtuple
 from ibanity import Ibanity
 import requests
+from ibanity.Flatten import flatten_json
 
 
 def create(authorization_code, code_verifier, redirect_uri, client_id, authorization):
@@ -15,7 +16,7 @@ def create(authorization_code, code_verifier, redirect_uri, client_id, authoriza
         }
 
     response = Ibanity.client.post(uri, body, {}, authorization)
-    return __create_token_named_tuple__(response)
+    return flatten_json(response["data"])
 
 
 def create_from_refresh_token(refresh_token, client_id, authorization):
@@ -27,7 +28,4 @@ def create_from_refresh_token(refresh_token, client_id, authorization):
         "client_id": client_id,
         }
     response = Ibanity.client.post(uri, body, {}, authorization)
-    return __create_token_named_tuple__(response)
-
-def __create_token_named_tuple__(token):
-    return namedtuple("Token", token.keys())(**token)
+    return flatten_json(response["data"])

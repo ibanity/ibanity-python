@@ -1,5 +1,6 @@
 from collections import namedtuple
 from ibanity import Ibanity
+from ibanity.Flatten import flatten_json
 
 
 def get_list(account_id, access_token):
@@ -10,7 +11,7 @@ def get_list(account_id, access_token):
     return list(
         map(
             lambda transaction:
-            __create_transaction_named_tuple__(transaction), response["data"]
+            flatten_json(transaction), response["data"]
         )
     )
 
@@ -20,8 +21,5 @@ def find(account_id, id, access_token):
         .replace("{accountId}", account_id) \
 		.replace("{transactionId}", id)
     response = Ibanity.client.get(uri, {}, access_token)
-    return __create_transaction_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
-
-def __create_transaction_named_tuple__(transaction):
-    return namedtuple("Transaction", transaction.keys())(**transaction)

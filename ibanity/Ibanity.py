@@ -4,6 +4,7 @@ from http.client import HTTPSConnection
 from json import loads, dumps
 
 import ibanity.Error
+import ibanity.Flatten
 
 
 class Ibanity:

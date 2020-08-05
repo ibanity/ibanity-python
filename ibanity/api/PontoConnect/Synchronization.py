@@ -1,5 +1,6 @@
 from collections import namedtuple
 from ibanity import Ibanity
+from ibanity.Flatten import flatten_json
 
 
 def create(attributes, access_token):
@@ -12,15 +13,12 @@ def create(attributes, access_token):
             }
         }
     response = Ibanity.client.post(uri, body, {}, access_token)
-    return __create_synchronization_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def find(id, access_token):
     uri = Ibanity.client.api_schema_ponto["synchronizations"] \
         .replace("{synchronizationId}", id)
     response = Ibanity.client.get(uri, {}, access_token)
-    return __create_synchronization_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
-
-def __create_synchronization_named_tuple__(synchronization):
-    return namedtuple("Synchronization", synchronization.keys())(**synchronization)

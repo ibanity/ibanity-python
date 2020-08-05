@@ -1,5 +1,6 @@
 from collections import namedtuple
 from ibanity import Ibanity
+from ibanity.Flatten import flatten_json
 
 
 def get_list_for_financial_institution(financial_institution_id, financial_institution_user_id, params={}):
@@ -11,7 +12,7 @@ def get_list_for_financial_institution(financial_institution_id, financial_insti
     return list(
         map(
             lambda account:
-            __create_account_named_tuple__(account), response["data"]
+            flatten_json(account), response["data"]
         )
     )
 
@@ -28,7 +29,7 @@ def create(financial_institution_id, financial_institution_user_id, attributes):
         }
     }
     response = Ibanity.client.post(uri, body, {}, None)
-    return __create_account_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def delete(financial_institution_id, financial_institution_user_id, id):
@@ -37,7 +38,7 @@ def delete(financial_institution_id, financial_institution_user_id, id):
         .replace("{financialInstitutionUserId}", financial_institution_user_id) \
         .replace("{financialInstitutionAccountId}", id)
     response = Ibanity.client.delete(uri, {}, None)
-    return __create_account_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def find(financial_institution_id, financial_institution_user_id, id):
@@ -46,8 +47,5 @@ def find(financial_institution_id, financial_institution_user_id, id):
         .replace("{financialInstitutionUserId}", financial_institution_user_id) \
         .replace("{financialInstitutionAccountId}", id)
     response = Ibanity.client.get(uri, {}, None)
-    return __create_account_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
-
-def __create_account_named_tuple__(account):
-    return namedtuple("FinancialInstitutionAccount", account.keys())(**account)

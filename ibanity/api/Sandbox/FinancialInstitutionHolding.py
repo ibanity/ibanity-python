@@ -1,5 +1,6 @@
 from collections import namedtuple
 from ibanity import Ibanity
+from ibanity.Flatten import flatten_json
 
 
 def get_list(financial_institution_id, financial_institution_user_id, financial_institution_account_id, params={}):
@@ -12,7 +13,7 @@ def get_list(financial_institution_id, financial_institution_user_id, financial_
     return list(
         map(
             lambda holding:
-            __create_holding_named_tuple__(holding), response["data"]
+            flatten_json(holding), response["data"]
         )
     )
 
@@ -30,7 +31,7 @@ def create(financial_institution_id, financial_institution_user_id, financial_in
         }
     }
     response = Ibanity.client.post(uri, body, {}, None)
-    return __create_holding_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def delete(financial_institution_id, financial_institution_user_id, financial_institution_account_id, id):
@@ -40,7 +41,7 @@ def delete(financial_institution_id, financial_institution_user_id, financial_in
         .replace("{financialInstitutionAccountId}", financial_institution_account_id)\
         .replace("{financialInstitutionHoldingId}", id)
     response = Ibanity.client.delete(uri, {}, None)
-    return __create_holding_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def find(financial_institution_id, financial_institution_user_id, financial_institution_account_id, id):
@@ -50,8 +51,5 @@ def find(financial_institution_id, financial_institution_user_id, financial_inst
         .replace("{financialInstitutionAccountId}", financial_institution_account_id)\
         .replace("{financialInstitutionHoldingId}", id)
     response = Ibanity.client.get(uri, {}, None)
-    return __create_holding_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
-
-def __create_holding_named_tuple__(holding):
-    return namedtuple("FinancialInstitutionHolding", holding.keys())(**holding)

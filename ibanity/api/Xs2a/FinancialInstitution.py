@@ -1,19 +1,22 @@
 from collections import namedtuple
 from ibanity import Ibanity
+from ibanity.Flatten import flatten_json
 
 
 def get_list(params={}):
-    uri = Ibanity.client.api_schema["financialInstitutions"].replace("{financialInstitutionId}", "")
+    uri = Ibanity.client.api_schema["financialInstitutions"] \
+        .replace("{financialInstitutionId}", "")
     response = Ibanity.client.get(uri, params, None)
     return list(
         map(
             lambda financial_institution:
-            __create_financial_institution_named_tuple__(financial_institution), response["data"]
+            flatten_json(financial_institution), response["data"]
         )
     )
 
 def create(attributes):
-    uri = Ibanity.client.api_schema["sandbox"]["financialInstitutions"].replace("{financialInstitutionId}", "")
+    uri = Ibanity.client.api_schema["sandbox"]["financialInstitutions"] \
+        .replace("{financialInstitutionId}", "")
     body = {
         "data": {
             "type": "financialInstitution",
@@ -21,14 +24,14 @@ def create(attributes):
         }
     }
     response = Ibanity.client.post(uri, body, {}, None)
-    return __create_financial_institution_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def delete(id):
     uri = Ibanity.client.api_schema["sandbox"]["financialInstitutions"] \
         .replace("{financialInstitutionId}", id)
     response = Ibanity.client.delete(uri, {}, None)
-    return __create_financial_institution_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 
 def update(id, attributes):
@@ -41,13 +44,9 @@ def update(id, attributes):
         }
     }
     response = Ibanity.client.patch(uri, body, {}, None)
-    return __create_financial_institution_named_tuple__(response["data"])
+    return flatten_json(response["data"])
 
 def find(id):
     uri = Ibanity.client.api_schema["financialInstitutions"].replace("{financialInstitutionId}", id)
     response = Ibanity.client.get(uri, {}, None)
-    return __create_financial_institution_named_tuple__(response["data"])
-
-
-def __create_financial_institution_named_tuple__(financial_institution):
-    return namedtuple("FinancialInstitution", financial_institution.keys())(**financial_institution)
+    return flatten_json(response["data"])
