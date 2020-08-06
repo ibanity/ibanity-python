@@ -1,6 +1,6 @@
 from collections import namedtuple
 from ibanity import Ibanity
-from ibanity.Flatten import flatten_json
+from ibanity.Flatten import flatten_json_ponto as flatten_json
 
 
 def get_list(account_id, access_token):

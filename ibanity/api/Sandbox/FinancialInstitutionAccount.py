@@ -9,6 +9,7 @@ def get_list_for_financial_institution(financial_institution_id, financial_insti
         .replace("{financialInstitutionUserId}", financial_institution_user_id) \
         .replace("{financialInstitutionAccountId}", "")
     response = Ibanity.client.get(uri, params, None)
+    print(response)
     return list(
         map(
             lambda account:
