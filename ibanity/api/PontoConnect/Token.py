@@ -14,7 +14,7 @@ def create(authorization_code, code_verifier, redirect_uri, client_id, authoriza
         "redirect_uri": redirect_uri,
         "code_verifier": code_verifier
         }
-    response = Ibanity.client.post(uri, body, {}, authorization)
+    response = Ibanity.client.post(uri, body, {}, "Basic " + str(authorization))
     return flatten_json(response)
 
 
@@ -26,5 +26,5 @@ def create_from_refresh_token(refresh_token, client_id, authorization):
         "refresh_token": refresh_token,
         "client_id": client_id,
         }
-    response = Ibanity.client.post(uri, body, {}, authorization)
+    response = Ibanity.client.post(uri, body, {}, "Basic " + str(authorization))
     return flatten_json(response)

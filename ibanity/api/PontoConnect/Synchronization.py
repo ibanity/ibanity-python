@@ -12,13 +12,13 @@ def create(attributes, access_token):
             "attributes": attributes
             }
         }
-    response = Ibanity.client.post(uri, body, {}, access_token)
+    response = Ibanity.client.post(uri, body, {}, "Bearer " + str(access_token))
     return flatten_json(response["data"])
 
 
 def find(id, access_token):
     uri = Ibanity.client.api_schema_ponto["synchronizations"] \
         .replace("{synchronizationId}", id)
-    response = Ibanity.client.get(uri, {}, access_token)
+    response = Ibanity.client.get(uri, {}, "Bearer " + str(access_token))
     return flatten_json(response["data"])
 

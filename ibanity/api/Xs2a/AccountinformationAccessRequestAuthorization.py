@@ -13,5 +13,5 @@ def create(financial_institution_id, account_information_access_request_id, cust
             "attributes": attributes
         }
     }
-    response = Ibanity.client.post(uri, body, {}, customer_access_token)
+    response = Ibanity.client.post(uri, body, {}, "Bearer " + str(customer_access_token))
     return flatten_json(response["data"])

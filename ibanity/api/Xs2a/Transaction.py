@@ -8,7 +8,7 @@ def get_list(financial_institution_id, account_id, customer_access_token, params
         .replace("{financialInstitutionId}", financial_institution_id) \
         .replace("{accountId}", account_id) \
         .replace("{transactionId}", "")
-    response = Ibanity.client.get(uri, params, customer_access_token)
+    response = Ibanity.client.get(uri, params, "Bearer " + str(customer_access_token))
     return list(
         map(
             lambda transaction:
@@ -22,6 +22,6 @@ def find(financial_institution_id, account_id, id, customer_access_token):
         .replace("{financialInstitutionId}", financial_institution_id) \
         .replace("{accountId}", account_id) \
         .replace("{transactionId}", id)
-    response = Ibanity.client.get(uri, {}, customer_access_token)
+    response = Ibanity.client.get(uri, {}, "Bearer " + str(customer_access_token))
     return flatten_json(response["data"])
 

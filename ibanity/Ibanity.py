@@ -62,14 +62,20 @@ class Ibanity:
 
     @staticmethod
     def __build_headers(customer_access_token):
-        authorization = ""
-        if customer_access_token:
-            authorization = "Bearer " + str(customer_access_token)
-            if customer_access_token[-2:] == "==":
-                authorization = "Basic " + str(customer_access_token)
-
+        # authorization = ""
+        # if customer_access_token:
+        #     authorization = "Bearer " + str(customer_access_token)
+        #     if customer_access_token[-2:] == "==":
+        #         authorization = "Basic " + str(customer_access_token)
+        # print(customer_access_token)
+        if (customer_access_token == None):
+            return {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": ""
+            }    
         return {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": authorization
+            "Authorization": customer_access_token
         }

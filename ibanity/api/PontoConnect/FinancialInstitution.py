@@ -6,7 +6,10 @@ from ibanity.Flatten import flatten_json
 def get_list(access_token = None):
     uri = Ibanity.client.api_schema_ponto["financialInstitutions"] \
     .replace("{financialInstitutionId}", "")
-    response = Ibanity.client.get(uri, {}, access_token)
+    if (response == None):
+        response = Ibanity.client.get(uri, {}, None)
+    else:
+        response = Ibanity.client.get(uri, {}, "Bearer " + str(access_token))
     return list(
         map(
             lambda financial_institution:

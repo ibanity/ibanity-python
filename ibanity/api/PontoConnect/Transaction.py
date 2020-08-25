@@ -7,7 +7,7 @@ def get_list(account_id, access_token):
     uri = Ibanity.client.api_schema_ponto["account"]["transactions"] \
 	    .replace("{accountId}", account_id) \
 		.replace("{transactionId}", "")
-    response = Ibanity.client.get(uri, {}, access_token)
+    response = Ibanity.client.get(uri, {}, "Bearer " + str(access_token))
     return list(
         map(
             lambda transaction:
@@ -20,6 +20,6 @@ def find(account_id, id, access_token):
     uri = Ibanity.client.api_schema_ponto["account"]["transactions"] \
         .replace("{accountId}", account_id) \
 		.replace("{transactionId}", id)
-    response = Ibanity.client.get(uri, {}, access_token)
+    response = Ibanity.client.get(uri, {}, "Bearer " + str(access_token))
     return flatten_json(response["data"])
 
